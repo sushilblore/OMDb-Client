@@ -6,6 +6,8 @@
     <string name="error_msg_no_internet">Not connected to internet</string>
     <string name="error_msg_timeout">The server took too long to respond</string>
     <string name="error_msg_unknown">An unexpected error occurred</string>
+    <string name="error_no_movies_found">No movies found. Try again..</string>
+    <string name="search_to_begin">Search to begin..</string>
     <string name="action_search">Enter a movie title here...</string>
 
 

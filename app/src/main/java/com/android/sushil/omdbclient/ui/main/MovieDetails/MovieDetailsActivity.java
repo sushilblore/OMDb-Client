@@ -2,13 +2,16 @@ package com.android.sushil.omdbclient.ui.main.MovieDetails;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.sushil.omdbclient.BaseApplication;
 import com.android.sushil.omdbclient.R;
 import com.android.sushil.omdbclient.data.model.MovieDetails;
 import com.android.sushil.omdbclient.data.remote.NetworkService;
+import com.android.sushil.omdbclient.utils.ActivityUtils;
 import com.android.sushil.omdbclient.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -68,6 +71,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         mMovieIMDBRating = (TextView) findViewById(R.id.movie_imdb_rating);
         mMoviePlot = (TextView) findViewById(R.id.movie_plot);
 
+
         Glide.with(this)
                 .load(mImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -85,6 +89,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onMovieDetailsLoadSuccess(MovieDetails movieDetailsResponse) {
+
         mMovieName.setText(getResources().getString(R.string.name,  movieDetailsResponse.getTitle()));
         mMovieYear.setText(getResources().getString(R.string.year, movieDetailsResponse.getYear()));
         mMovieRated.setText(getResources().getString(R.string.rated, movieDetailsResponse.getRated()));
@@ -102,7 +107,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onMovieDetailsLoadFailure(Throwable t) {
-
+        String errorText = ActivityUtils.fetchErrorMessage(t, this);
+        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
     }
 
     @Override

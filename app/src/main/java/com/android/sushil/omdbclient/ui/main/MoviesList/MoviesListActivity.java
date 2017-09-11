@@ -9,10 +9,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.sushil.omdbclient.BaseApplication;
 import com.android.sushil.omdbclient.R;
@@ -108,7 +110,8 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mLatestQuery = query;
+                Log.d("Sushil", "..onQueryTextSubmit....");
+                mLatestQuery = query.toString().trim();
                 ActivityUtils.hideSoftKeyboard(MoviesListActivity.this);
                 mAdapter.removeAll();
 
@@ -119,6 +122,7 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.d("Sushil", "..onQueryTextChange....");
                 return false;
             }
         };
@@ -132,6 +136,7 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
     }
 
     private void fetchData(final String query, boolean newQuery) {
+        Log.d("Sushil", "...fetchData    newQuery : " + newQuery);
         mProgressBar.setVisibility(View.VISIBLE);
         if(newQuery) {
             mCurrentPage = PAGE_START;
@@ -149,13 +154,14 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
 
     @Override
     public void onMovieListLoadSuccess(SearchResults searchResultResponse) {
+        Log.d("Sushil", "...onMovieListLoadSuccess mIsNewQuery : " + mIsNewQuery + "response : " + searchResultResponse.getResponse().toString());
         mProgressBar.setVisibility(View.GONE);
         if(mIsNewQuery) {
             if (searchResultResponse.getResponse().equals("True")) {
                 mMessage.setVisibility(View.GONE);
                 mAdapter.addAll(searchResultResponse.getSearch());
             } else {
-                mMessage.setText("No movies found. Try again.");
+                mMessage.setText(R.string.error_no_movies_found);
                 mMessage.setVisibility(View.VISIBLE);
             }
             mIsLoading = false;
@@ -183,8 +189,9 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
             }
         }
         String errorText = ActivityUtils.fetchErrorMessage(t, this);
-        mMessage.setText(errorText);
-        mMessage.setVisibility(View.VISIBLE);
+        //mMessage.setText(errorText);
+        //mMessage.setVisibility(View.VISIBLE);
+        Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
     }
 
     @Override

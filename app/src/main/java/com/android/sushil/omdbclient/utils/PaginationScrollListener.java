@@ -2,12 +2,13 @@ package com.android.sushil.omdbclient.utils;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
 
     LinearLayoutManager layoutManager;
-    int visibleThreshold = 5;
+    int visibleThreshold = 1;
 
 
     public PaginationScrollListener(LinearLayoutManager layoutManager) {
@@ -21,7 +22,8 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
         int totalItemCount = layoutManager.getItemCount();
         int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-        if (!isLoading() && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+        if (!isLoading() && (totalItemCount > 0) && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+            Log.d("Sushil", "..totalItemCount : " + totalItemCount + "..lastVisibleItem + visibleThreshold.." + lastVisibleItem + visibleThreshold);
             loadMoreItems();
         }
 
