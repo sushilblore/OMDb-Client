@@ -12,8 +12,6 @@ public class MovieDetailsContract {
     public interface View extends BaseView<Presenter> {
         void onMovieDetailsLoadSuccess(MovieDetails movieDetailsResponse);
         void onMovieDetailsLoadFailure(Throwable t);
-        void showErrorView(Throwable t);
-        void hideErrorView();
     }
 
     public interface Presenter extends BasePresenter {

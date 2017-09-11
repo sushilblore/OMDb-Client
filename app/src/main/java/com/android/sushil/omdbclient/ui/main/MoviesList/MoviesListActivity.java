@@ -110,7 +110,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("Sushil", "..onQueryTextSubmit....");
                 mLatestQuery = query.toString().trim();
                 ActivityUtils.hideSoftKeyboard(MoviesListActivity.this);
                 mAdapter.removeAll();
@@ -122,7 +121,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("Sushil", "..onQueryTextChange....");
                 return false;
             }
         };
@@ -136,7 +134,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
     }
 
     private void fetchData(final String query, boolean newQuery) {
-        Log.d("Sushil", "...fetchData    newQuery : " + newQuery);
         mProgressBar.setVisibility(View.VISIBLE);
         if(newQuery) {
             mCurrentPage = PAGE_START;
@@ -154,7 +151,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
 
     @Override
     public void onMovieListLoadSuccess(SearchResults searchResultResponse) {
-        Log.d("Sushil", "...onMovieListLoadSuccess mIsNewQuery : " + mIsNewQuery + "response : " + searchResultResponse.getResponse().toString());
         mProgressBar.setVisibility(View.GONE);
         if(mIsNewQuery) {
             if (searchResultResponse.getResponse().equals("True")) {

@@ -29,7 +29,6 @@ public class MoviesListPresenter implements MoviesListContract.Presenter {
 
     @Override
     public void loadMoviesListItems(String query, String type, int pageNumber) {
-        Log.d("Sushil", "MoviesListPresenter  loadMoviesListItems");
         Subscription subscription = mNetworkService.searchMovies(new NetworkService.GetMoviesListCallback() {
 
             @Override

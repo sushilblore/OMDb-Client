@@ -23,7 +23,6 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
         int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
         if (!isLoading() && (totalItemCount > 0) && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-            Log.d("Sushil", "..totalItemCount : " + totalItemCount + "..lastVisibleItem + visibleThreshold.." + lastVisibleItem + visibleThreshold);
             loadMoreItems();
         }
 

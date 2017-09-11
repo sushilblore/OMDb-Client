@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private TextView mMovieCountry;
     private TextView mMovieIMDBRating;
     private TextView mMoviePlot;
+    private ProgressBar mProgressBar;
 
     @Inject
     public NetworkService mNetworkService;
@@ -71,6 +73,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         mMovieIMDBRating = (TextView) findViewById(R.id.movie_imdb_rating);
         mMoviePlot = (TextView) findViewById(R.id.movie_plot);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.details_progress);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         Glide.with(this)
                 .load(mImageUrl)
@@ -90,6 +94,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     @Override
     public void onMovieDetailsLoadSuccess(MovieDetails movieDetailsResponse) {
 
+        mProgressBar.setVisibility(View.GONE);
+
         mMovieName.setText(getResources().getString(R.string.name,  movieDetailsResponse.getTitle()));
         mMovieYear.setText(getResources().getString(R.string.year, movieDetailsResponse.getYear()));
         mMovieRated.setText(getResources().getString(R.string.rated, movieDetailsResponse.getRated()));
@@ -107,17 +113,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onMovieDetailsLoadFailure(Throwable t) {
+        mProgressBar.setVisibility(View.GONE);
         String errorText = ActivityUtils.fetchErrorMessage(t, this);
         Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showErrorView(Throwable t) {
-
-    }
-
-    @Override
-    public void hideErrorView() {
-
     }
 }
