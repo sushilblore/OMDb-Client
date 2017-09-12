@@ -77,7 +77,7 @@ public class NetworkServiceUnitTest {
     }
 
     @Test
-    public void testMovieDetailsResponse() throws Exception {
+    public void testMovieDetailsWithDataResponse() throws Exception {
         MovieDetails movieDetails = TestDataFactory.makeMovieDeatilsObject();
         when(mNetworkAPI.getMovieDetails("tt0057012")).thenReturn(Observable.<MovieDetails>just(movieDetails));
         mNetworkService.getMovieDetails(new NetworkService.GetMovieDetailsCallback() {
