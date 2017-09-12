@@ -33,13 +33,11 @@ public class MoviesListPresenter implements MoviesListContract.Presenter {
 
             @Override
             public void onSuccess(SearchResults moviesListResponse) {
-                Log.i(TAG, "loadMoviesListItems : onSuccess");
                 mView.onMovieListLoadSuccess(moviesListResponse);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.i(TAG, "loadMoviesListItems : onError : " + e.getLocalizedMessage());
                 mView.onMovieListLoadFailure(e);
             }
 

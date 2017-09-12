@@ -89,11 +89,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
             }
 
             @Override
-            public boolean isLastPage() {
-                return mReachedEnd;
-            }
-
-            @Override
             public boolean isLoading() {
                 return mIsLoading;
             }
@@ -185,8 +180,6 @@ public class MoviesListActivity extends AppCompatActivity implements MoviesListC
             }
         }
         String errorText = ActivityUtils.fetchErrorMessage(t, this);
-        //mMessage.setText(errorText);
-        //mMessage.setVisibility(View.VISIBLE);
         Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
     }
 

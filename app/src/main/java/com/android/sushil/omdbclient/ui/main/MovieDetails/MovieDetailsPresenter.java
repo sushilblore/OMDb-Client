@@ -32,13 +32,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
             @Override
             public void onSuccess(MovieDetails movieDetailsResponse) {
-                Log.i(TAG, "loadMovieDetails : onSuccess");
                 mView.onMovieDetailsLoadSuccess(movieDetailsResponse);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.i(TAG, "loadMovieDetails : onError : " + e.getLocalizedMessage());
                 mView.onMovieDetailsLoadFailure(e);
             }
 
