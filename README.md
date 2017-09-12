@@ -22,7 +22,7 @@ Edge Cases :
 
 # MovieDetails Screen
 
-On clicking any item in the list, MovieDetails screen is show. This screen has detail information for the movie item which is clicked.
+On clicking any item in the list, MovieDetails screen is show. This screen has detail information for the movie item which is clicked. The screen can be scrolled if the information does not fit in the screen.
 
 Design :
 
