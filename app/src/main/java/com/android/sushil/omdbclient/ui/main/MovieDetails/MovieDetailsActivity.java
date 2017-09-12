@@ -38,7 +38,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private TextView mMovieCountry;
     private TextView mMovieIMDBRating;
     private TextView mMoviePlot;
-    private ActionBar actionBar;
+    private ActionBar mActionBar;
+    View mProgressOverlay;
 
     @Inject
     public NetworkService mNetworkService;
@@ -48,8 +49,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         Bundle dataBundle = getIntent().getExtras();
         if (dataBundle != null) {
@@ -59,6 +60,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
         ((BaseApplication)getApplication()).getDependency().inject(this);
         setPresenter(new MovieDetailsPresenter(mNetworkService, this));
+
+        mProgressOverlay = findViewById(R.id.progress_overlay);
 
         mPosterImage = (ImageView) findViewById(R.id.img_poster);
         mMovieRated = (TextView) findViewById(R.id.movie_rated);
@@ -81,6 +84,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
                 .into(mPosterImage);
 
         mPresenter.loadMovieDetails(mImdbId);
+        ActivityUtils.animateView(mProgressOverlay, View.VISIBLE, 0.4f, 200);
+        mProgressOverlay.bringToFront();
     }
 
     @Override
@@ -96,8 +101,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onMovieDetailsLoadSuccess(MovieDetails movieDetailsResponse) {
-
-        actionBar.setTitle(movieDetailsResponse.getTitle());
+        ActivityUtils.animateView(mProgressOverlay, View.GONE, 0, 200);
+        mActionBar.setTitle(movieDetailsResponse.getTitle());
 
         mMovieRated.setText(getResources().getString(R.string.rated, movieDetailsResponse.getRated()));
         mMovieReleased.setText(movieDetailsResponse.getReleased());
@@ -114,6 +119,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onMovieDetailsLoadFailure(Throwable t) {
+        ActivityUtils.animateView(mProgressOverlay, View.GONE, 0, 200);
         String errorText = ActivityUtils.fetchErrorMessage(t, this);
         Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
     }
