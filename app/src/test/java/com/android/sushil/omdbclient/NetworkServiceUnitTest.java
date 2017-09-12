@@ -17,6 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import common.TestDataFactory;
 import rx.Observable;
 import rx.android.plugins.RxAndroidPlugins;
+
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -38,20 +40,19 @@ public class NetworkServiceUnitTest {
 
     @Test
     public void testMovieDetailsEmptyResponse() throws Exception {
+        String result;
         MovieDetails movieDetails = new MovieDetails();
         when(mNetworkAPI.getMovieDetails("tt0057012")).thenReturn(Observable.<MovieDetails>just(movieDetails));
 
         mNetworkService.getMovieDetails(new NetworkService.GetMovieDetailsCallback() {
             @Override
             public void onSuccess(MovieDetails movieDetailsResponse) {
-                String s = "onSuccess ";
-                System.out.print(s);
+                verify(movieDetailsResponse.getResponse().equals("true"));
             }
 
             @Override
             public void onError(Throwable e) {
-                String s = "onErrorr ";
-                System.out.print(s);
+
             }
 
         },"tt0057012");
@@ -64,14 +65,12 @@ public class NetworkServiceUnitTest {
         mNetworkService.getMovieDetails(new NetworkService.GetMovieDetailsCallback() {
             @Override
             public void onSuccess(MovieDetails movieDetailsResponse) {
-                String s = "onSuccess ";
-                System.out.print(s);
             }
 
             @Override
             public void onError(Throwable e) {
-                String s = "onError ";
-                System.out.print(s);
+                verify(e.getMessage().equals("false"));
+
             }
 
         },"tt0057012");
@@ -84,14 +83,12 @@ public class NetworkServiceUnitTest {
         mNetworkService.getMovieDetails(new NetworkService.GetMovieDetailsCallback() {
             @Override
             public void onSuccess(MovieDetails movieDetailsResponse) {
-                String s = "onSuccess Movie Title : " + movieDetailsResponse.getTitle();
-                System.out.print(s);
+                verify(movieDetailsResponse.getTitle().equals("Titanic"));
             }
 
             @Override
             public void onError(Throwable e) {
-                String s = "onError ";
-                System.out.print(s);
+
             }
 
         },"tt0057012");
