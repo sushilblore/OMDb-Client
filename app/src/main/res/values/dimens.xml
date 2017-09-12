@@ -1,6 +1,11 @@
 <resources>
+    <dimen name="activity_small_margin">2dp</dimen>
     <dimen name="activity_margin_quarter">4dp</dimen>
     <dimen name="activity_margin_content">24dp</dimen>
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="activity_margin_half">8dp</dimen>
+
+    <dimen name="details_title"> 16dp</dimen>
+    <dimen name="details_body"> 14dp</dimen>
+    <dimen name="details_bottom"> 12dp</dimen>
 </resources>

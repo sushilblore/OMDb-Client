@@ -44,7 +44,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
         }, id);
 
-        mSubscriptions.add(subscription);
+        if(null != subscription)
+            mSubscriptions.add(subscription);
     }
 
     public void onStop() {

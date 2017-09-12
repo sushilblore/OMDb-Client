@@ -31,9 +31,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MovieDetails.MovieDetailsActivity">
+        <activity android:name=".ui.main.MovieDetails.MovieDetailsActivity"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".ui.main.MoviesList.MoviesListActivity">
         </activity>
-
 
     </application>
 

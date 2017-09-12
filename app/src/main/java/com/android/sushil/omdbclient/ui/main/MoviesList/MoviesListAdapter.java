@@ -155,22 +155,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public void addLoadingFooter() {
-        mIsLoadingAdded = true;
-        add(new Search());
-    }
-
-    public void removeLoadingFooter() {
-        mIsLoadingAdded = false;
-
-        int position = mSearchResults.size() - 1;
-        Search result = getItem(position);
-
-        if (result != null) {
-            mSearchResults.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
 
     public Search getItem(int position) {
         return mSearchResults.get(position);

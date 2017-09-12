@@ -1,6 +1,7 @@
 package com.android.sushil.omdbclient.ui.main.MovieDetails;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,8 +27,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private MovieDetailsPresenter mPresenter;
 
     private ImageView mPosterImage;
-    private TextView mMovieName;
-    private TextView mMovieYear;
     private TextView mMovieRated;
     private TextView mMovieReleased;
     private TextView mMovieRuntime;
@@ -39,7 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private TextView mMovieCountry;
     private TextView mMovieIMDBRating;
     private TextView mMoviePlot;
-    private ProgressBar mProgressBar;
+    private ActionBar actionBar;
 
     @Inject
     public NetworkService mNetworkService;
@@ -48,6 +47,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Bundle dataBundle = getIntent().getExtras();
         if (dataBundle != null) {
@@ -59,8 +61,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         setPresenter(new MovieDetailsPresenter(mNetworkService, this));
 
         mPosterImage = (ImageView) findViewById(R.id.img_poster);
-        mMovieName = (TextView) findViewById(R.id.movie_name);
-        mMovieYear = (TextView) findViewById(R.id.movie_year);
         mMovieRated = (TextView) findViewById(R.id.movie_rated);
         mMovieReleased = (TextView) findViewById(R.id.movie_released);
         mMovieRuntime = (TextView) findViewById(R.id.movie_runtime);
@@ -73,9 +73,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         mMovieIMDBRating = (TextView) findViewById(R.id.movie_imdb_rating);
         mMoviePlot = (TextView) findViewById(R.id.movie_plot);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.details_progress);
-        mProgressBar.setVisibility(View.VISIBLE);
-
         Glide.with(this)
                 .load(mImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -87,6 +84,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void setPresenter(MovieDetailsContract.Presenter presenter) {
         mPresenter = (MovieDetailsPresenter)presenter;
     }
@@ -94,26 +97,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     @Override
     public void onMovieDetailsLoadSuccess(MovieDetails movieDetailsResponse) {
 
-        mProgressBar.setVisibility(View.GONE);
+        actionBar.setTitle(movieDetailsResponse.getTitle());
 
-        mMovieName.setText(getResources().getString(R.string.name,  movieDetailsResponse.getTitle()));
-        mMovieYear.setText(getResources().getString(R.string.year, movieDetailsResponse.getYear()));
         mMovieRated.setText(getResources().getString(R.string.rated, movieDetailsResponse.getRated()));
-        mMovieReleased.setText(getResources().getString(R.string.released, movieDetailsResponse.getReleased()));
-        mMovieRuntime.setText(getResources().getString(R.string.runtime, movieDetailsResponse.getRuntime()));
-        mMovieGenre.setText(getResources().getString(R.string.genre, movieDetailsResponse.getGenre()));
+        mMovieReleased.setText(movieDetailsResponse.getReleased());
+        mMovieRuntime.setText( movieDetailsResponse.getRuntime());
+        mMovieGenre.setText(movieDetailsResponse.getGenre());
         mMovieDirector.setText(getResources().getString(R.string.director, movieDetailsResponse.getDirector()));
         mMovieWriter.setText(getResources().getString(R.string.writer, movieDetailsResponse.getWriter()));
         mMovieActors.setText(getResources().getString(R.string.actors, movieDetailsResponse.getActors()));
-        mMovieLanguage.setText(getResources().getString(R.string.language, movieDetailsResponse.getLanguage()));
+        mMovieLanguage.setText(movieDetailsResponse.getLanguage());
         mMovieCountry.setText(getResources().getString(R.string.country, movieDetailsResponse.getCountry()));
         mMovieIMDBRating.setText(getResources().getString(R.string.imdb_ratng, movieDetailsResponse.getImdbRating()));
-        mMoviePlot.setText(getResources().getString(R.string.plot, movieDetailsResponse.getPlot()));
+        mMoviePlot.setText(movieDetailsResponse.getPlot());
     }
 
     @Override
     public void onMovieDetailsLoadFailure(Throwable t) {
-        mProgressBar.setVisibility(View.GONE);
         String errorText = ActivityUtils.fetchErrorMessage(t, this);
         Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
     }
