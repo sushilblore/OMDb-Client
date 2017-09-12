@@ -9,7 +9,7 @@
     <dimen name="details_body"> 14dp</dimen>
     <dimen name="details_bottom"> 12dp</dimen>
 
-    <dimen name="image_placeholder_portrait"> 300dp</dimen>
+    <dimen name="image_placeholder_portrait"> 400dp</dimen>
     <dimen name="image_placeholder_landscape"> 200dp</dimen>
 
 </resources>
