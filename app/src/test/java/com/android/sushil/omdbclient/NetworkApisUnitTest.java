@@ -4,6 +4,7 @@ import com.android.sushil.omdbclient.data.model.MovieDetails;
 import com.android.sushil.omdbclient.data.model.SearchResults;
 import com.android.sushil.omdbclient.data.remote.NetworkAPI;
 
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,9 @@ public class NetworkApisUnitTest {
             subscriber.assertCompleted();
             assertThat(subscriber.getOnNextEvents().get(0).getResponse(), true);
 
+            String reason = subscriber.getOnNextEvents().get(0).getTotalResults();
+            assertThat(reason, reason.equals("5"));
+
         }
     }
 
@@ -62,6 +66,9 @@ public class NetworkApisUnitTest {
             subscriber.assertNoErrors();
             subscriber.assertCompleted();
             assertThat(subscriber.getOnNextEvents().get(0).getResponse(), true);
+
+            String reason = subscriber.getOnNextEvents().get(0).getTitle();
+            assertThat(reason, reason.equals("Titanic"));
         }
     }
 }
