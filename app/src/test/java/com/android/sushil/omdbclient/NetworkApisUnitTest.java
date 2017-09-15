@@ -30,7 +30,7 @@ public class NetworkApisUnitTest {
         mNetworkAPI = new NetworkAPI() {
             @Override
             public Observable<SearchResults> searchMovies(@Query("s") String query, @Query("type") String type, @Query("page") int page) {
-                SearchResults searchResults = new SearchResults();
+                SearchResults searchResults = TestDataFactory.makeSearchResultsObject();
                 return Observable.just(searchResults);
             }
 
@@ -49,6 +49,7 @@ public class NetworkApisUnitTest {
             mNetworkAPI.searchMovies("Live", "movie", 1).subscribe(subscriber);
             subscriber.assertNoErrors();
             subscriber.assertCompleted();
+            assertThat(subscriber.getOnNextEvents().get(0).getResponse(), true);
 
         }
     }
@@ -60,7 +61,7 @@ public class NetworkApisUnitTest {
             mNetworkAPI.getMovieDetails("tt0057012").subscribe(subscriber);
             subscriber.assertNoErrors();
             subscriber.assertCompleted();
-            assertThat(subscriber.getOnNextEvents().get(0).getTitle(), true);
+            assertThat(subscriber.getOnNextEvents().get(0).getResponse(), true);
         }
     }
 }
