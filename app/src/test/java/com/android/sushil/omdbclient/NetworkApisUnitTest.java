@@ -9,9 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import common.TestDataFactory;
 import retrofit2.http.Query;
 import rx.Observable;
 import rx.observers.TestSubscriber;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by sushiljha on 11/09/2017.
@@ -33,7 +36,7 @@ public class NetworkApisUnitTest {
 
             @Override
             public Observable<MovieDetails> getMovieDetails(@Query("i") String imdbId) {
-                MovieDetails movieDetails = new MovieDetails();
+                MovieDetails movieDetails = TestDataFactory.makeMovieDeatilsObject();
                 return Observable.just(movieDetails);
             }
         };
@@ -57,6 +60,7 @@ public class NetworkApisUnitTest {
             mNetworkAPI.getMovieDetails("tt0057012").subscribe(subscriber);
             subscriber.assertNoErrors();
             subscriber.assertCompleted();
+            assertThat(subscriber.getOnNextEvents().get(0).getTitle(), true);
         }
     }
 }
